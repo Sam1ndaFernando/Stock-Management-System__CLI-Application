@@ -5,26 +5,22 @@ public class StockManagementSystem {
     static String login[][] = new String[1][2];   //{{"Saminda", "1234"}};
     static String supplies[][] = new String[0][2];
     static String item[][] = new String[0][5];
-
-
-
     public static void main(String[] args) {
         login[0][0] = "saminda";
         login[0][1] = "1234";
         login();
         ChangeTheCredentials();
-
-//        System.out.println("+---------------------------------------------------------------------------------------+");
-//        System.out.println("|\t\t\t\t\t\t\t\t\t LOGIN PAGE \t\t\t\t\t\t\t\t\t\t|");
-//        System.out.println("+---------------------------------------------------------------------------------------+");
-//        System.out.println();
-//
-//        login();
+        SupplierManage();
 
 
     }
 
     private static void login() {
+
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\t\t LOGIN PAGE \t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println();
 
         System.out.print("User name: ");
         String username = input.next();
@@ -34,7 +30,6 @@ public class StockManagementSystem {
         String password;
 
         if (isValidUsername) {
-
             do {
                 System.out.print("Password: ");
                 password = input.next();
@@ -44,6 +39,8 @@ public class StockManagementSystem {
                     clearConsole();
                     HomePage();
                     //System.out.println("PIT thama !");
+
+
                 } else {
                     System.out.println("password is incorrect. please try again!");
                 }
@@ -53,8 +50,6 @@ public class StockManagementSystem {
             login();
         }
     }
-
-
     private static boolean verifyingCredentials(String username) {
         for (String[] user : login) {
             if (user[0].equals(username)) {
@@ -72,7 +67,6 @@ public class StockManagementSystem {
         }
         return false;
     }
-
     private static void HomePage() {
         int option;
         while (true) {
@@ -94,8 +88,35 @@ public class StockManagementSystem {
                     clearConsole();
                     ChangeTheCredentials();
                     break;
+
+                case 2 :
+                    clearConsole();
+                    SupplierManage();
+                    break;
+                case 3 :
+                case 4 :
+                    clearConsole();
+                    logout(4);
+                case 5 :
+                    clearConsole();
+                    System.exit(5);
             }
         }
+    }
+
+    private static void SupplierManage() {
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\t\tSUPPLIER MANAGE\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println();
+
+    }
+
+    private static void logout(int i) {
+        if (i==4) {
+            login();
+        }
+
     }
 
     private static void ChangeTheCredentials() {
@@ -130,7 +151,21 @@ public class StockManagementSystem {
 
                         login[0][1] = Newpassword;
 
-                        System.out.println("Password changed successfully! Do you go to home page (Y/N): ");  /// continue the progtrammme
+                        System.out.print("Password changed successfully! Do you go to home page (Y/N): ");                        /// continue the progtrammme
+                        String goToHomePage = input.next();
+
+
+                        if (goToHomePage.equalsIgnoreCase("Y") || goToHomePage.equalsIgnoreCase("y")){
+                            clearConsole();
+                            HomePage();
+                            break;
+                        }
+
+                        if (goToHomePage.equalsIgnoreCase("N") || goToHomePage.equalsIgnoreCase("n")) {
+                            System.out.println();
+                            break;
+                        }
+                        //System.out.println("code loku wadii hu@#! ");
                         return;
                     }
                 }while (true);
