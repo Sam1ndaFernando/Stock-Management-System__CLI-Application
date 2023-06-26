@@ -10,10 +10,14 @@ public class StockManagementSystem {
         login[0][0] = "saminda";
         login[0][1] = "1234";
 
+        //ViewSupplier();
+
+        /////////////////////////
         login();
 
         clearConsole();
         HomePage();
+///////////////////////////////////
 
 //        ChangeTheCredentials();
 //        SupplierManage();
@@ -99,6 +103,7 @@ public class StockManagementSystem {
                     SupplierManage();
                     break;
                 case 3 :
+
                 case 4 :
                     clearConsole();
                     logout(4);
@@ -140,9 +145,99 @@ public class StockManagementSystem {
                     clearConsole();
                     DeleteSupplier();
                     break;
+
+                case 4 :
+                    clearConsole();
+                    ViewSupplier();
+                    break;
+
+                case 5 :
+                    clearConsole();
+                    SearchSupplier();
+                    break;
+
+                case 6 :
+                    clearConsole();
+                    HomePage();
+                    break;
             }
         }
     }
+
+    private static void SearchSupplier() {
+        String answer;
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\tSEARCH SUPPLIER\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println();
+        while (true) {
+            System.out.print("Supplier ID: ");
+            answer = input.next();
+
+            boolean found = false;
+
+            for (int i = 0; i < supplies.length; i++) {
+                if (answer.equals(supplies[i][0])) {
+                    System.out.println("Supplier Name: " + supplies[i][1]);
+                    found = true;
+                    System.out.print("Search successfully! ");
+                    System.out.print("Do you want to Search another(Y/N) ? ");
+                    answer = input.next();
+
+                    if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
+                        clearConsole();
+                        SearchSupplier();
+                        break;
+                    }
+                    if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")) {
+                        clearConsole();
+                        SupplierManage();
+                        break;
+                    }
+                }
+            }
+
+            if (!found) {
+                System.out.println("can't find supplier id. try again!");
+            } else {
+                break;
+            }
+        }
+    }
+    private static void ViewSupplier() {
+        String answer;
+            System.out.println("+---------------------------------------------------------------------------------------+");
+            System.out.println("|\t\t\t\t\t\t\t\tVIEW SUPPLIER\t\t\t\t\t\t\t\t\t\t\t|");
+            System.out.println("+---------------------------------------------------------------------------------------+");
+
+            while (true){
+                System.out.println();
+                System.out.println("+-----------------------------------------------+");
+                System.out.println("|\tSupplier ID\t\t|\t\tSupplier Name\t\t|");
+                System.out.println("+-----------------------------------------------+");
+                for (int i = 0; i < supplies.length; i++) {
+                    System.out.printf("|\t%-12s\t|\t\t%-14s\t\t|\n", supplies[i][0], supplies[i][1]);
+                }
+                System.out.println("+-----------------------------------------------+");
+
+                System.out.println();
+                System.out.print("Do you want to go supplier manage page(Y/N) ? ");
+                answer = input.next();
+
+                if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
+                    clearConsole();
+                    SupplierManage();
+                    break;
+                }
+                if (answer == null) {
+                    if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")) {
+                        clearConsole();
+                        break;
+                    }
+                }
+            }
+        }
+
     private static void DeleteSupplier() {        ///explain
         System.out.println("+---------------------------------------------------------------------------------------+");
         System.out.println("|\t\t\t\t\t\t\t\tDELETE SUPPLIER\t\t\t\t\t\t\t\t\t\t\t|");
@@ -210,7 +305,7 @@ public class StockManagementSystem {
     }
     private static void updateSupplier() {
         boolean duplicate;
-
+        //sam1nda Fernando
         System.out.println("+---------------------------------------------------------------------------------------+");
         System.out.println("|\t\t\t\t\t\t\t\tUPDATE SUPPLIER\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+---------------------------------------------------------------------------------------+");
@@ -238,7 +333,7 @@ public class StockManagementSystem {
                 System.out.print("added successfully! ");
                 System.out.print("Do you want to update another suplier(Y/N) ? ");
                 answer = input.next();
-
+                //sam1nda Fernando
                 if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
                     clearConsole();
                     updateSupplier();;
@@ -261,7 +356,7 @@ public class StockManagementSystem {
         }
         return "";
     }
-
+    //sam1nda Fernando
     private static void AddSupplier() {
         boolean duplicate;
 
