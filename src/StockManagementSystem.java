@@ -10,19 +10,10 @@ public class StockManagementSystem {
         login[0][0] = "saminda";
         login[0][1] = "1234";
 
-        //ViewSupplier();
-
-        /////////////////////////
         login();
 
         clearConsole();
         HomePage();
-///////////////////////////////////
-
-//        ChangeTheCredentials();
-//        SupplierManage();
-        //AddSupplier();
-        //updateSupplier();
     }
 
     private static void login() {
@@ -103,6 +94,9 @@ public class StockManagementSystem {
                     SupplierManage();
                     break;
                 case 3 :
+                    clearConsole();
+                    StockManage();
+                    break;
 
                 case 4 :
                     clearConsole();
@@ -112,6 +106,97 @@ public class StockManagementSystem {
                     System.exit(5);
             }
         }
+    }
+    private static void StockManage() {
+        int option;
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\tSTOCK MANAGEMENT\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println();
+        System.out.println("[1] Manage Item Categories"+"                  "+"[2] Add Item       ");
+        System.out.println("[3] Get Items Supplier Wise"+"                 "+"[4] View Items     ");
+        System.out.println("[5] Rank Items Per Unit Price"+"               "+"[6] Home Page      ");
+
+        System.out.println();
+
+        System.out.print("Enter an option to continue > ");
+        option = input.nextInt();
+
+        switch (option){
+            case 1 :
+                clearConsole();
+                ManageItemCategories();
+                break;
+        }
+    }
+    private static void ManageItemCategories() {
+        int option;
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\tSUPPLIER MANAGE\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println();
+        System.out.println("[1] Add New Item Category "+"             "+"[2] Delete Item Category");
+        System.out.println("[3] Update Item Category  "+"             "+"[4] Stock Managment     ");
+        System.out.println();
+
+        System.out.print("Enter an option to continue > ");
+        option = input.nextInt();
+
+        switch (option){
+
+            case 1 :
+                clearConsole();
+                AddNewItemCategory();
+                break;
+        }
+    }
+    private static void AddNewItemCategory() {
+        boolean duplicate = true;
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\t\tADD ITEM CATEGORY\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println();
+
+        while (duplicate == true) {
+            System.out.print("Enter the new item category : ");
+            String category = input.next();
+
+            extendAddItems("","",0.0,0,category);
+            System.out.println();
+            System.out.println("For test only !!! "+Arrays.toString(item));
+
+            System.out.print("Added successfully! ");
+            System.out.print("Do you want to add another category(Y/N) ? ");
+            String answer = input.next();
+
+            if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
+                clearConsole();
+                AddNewItemCategory();
+                break;
+            }
+            if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")) {
+                clearConsole();
+                StockManage();
+                break;
+            }
+        }
+    }
+    private static void extendAddItems(String id, String desc, double unitPrice, int Qty, String Category) {
+        String[][] temp = new String[item.length+1][5];
+
+        for (int i = 0; i < item.length; i++) {
+            for (int j = 0; j < item[i].length; j++) {
+                temp[i][j]=item[i][j];
+            }
+        }
+
+        temp[item.length][0]=id;
+        temp[item.length][1]=desc;
+        temp[item.length][2]=String.valueOf(unitPrice);
+        temp[item.length][3]=String.valueOf(Qty);
+        temp[item.length][4]=Category;
+
+        item=temp;
     }
 
     private static void SupplierManage() {
@@ -323,7 +408,7 @@ public class StockManagementSystem {
                 System.out.print("Supplier Name : ");
                 String newName = input.next();
 
-                // update name on student array
+
                 for (int i = 0; i < supplies.length; i++) {
                     if (id.equals(supplies[i][0])) {
                         supplies[i][1]=newName;
@@ -399,7 +484,7 @@ public class StockManagementSystem {
                         SupplierManage();
                         break;
                     }
-                    //System.out.println("code loku wadii hu@#! ");
+                    //System.out.println("code wadii hu@#! ");
                     return;
 
             }while (true);
