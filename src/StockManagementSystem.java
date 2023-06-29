@@ -221,29 +221,12 @@ public class StockManagementSystem {
 
                     for (int k = 0; k < item.length; k++) {
                         System.out.printf("|\t %-10s |\t%-18s\t\t|\n", (k+1), item[k][4]);
-                        //"|\t %-10s |\t%-18s\t|\n", (k+1), item[k][4]
                     }
-//                    System.out.println((0+1)+", "+item[0][4]);
 
                     System.out.println("+-------------------------------------------+");
                 }
             }
     }
-                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                    for (int i = 0; i < item.length; i++) {
-//                        if (item[i][4].equals(answer)) {
-//
-//                            System.out.println("+---------------------------------------------------------------+");
-//                            System.out.println("|\t #\t\t\t|\tCategory name\t\t\t|");
-//                            System.out.println("+---------------------------------------------------------------+");
-//
-//                            for (int j = 0; j < item.length-1; j++) {
-//                                System.out.printf("|\t %-10s |\t%-18s\t|\n", (j+1), item[j][4]);
-//                            }
-//
-//                            System.out.println("+---------------------------------------------------------------+");
-//                        }
-//                    }
     private static void ManageItemCategories() {
         int option;
         System.out.println("+---------------------------------------------------------------------------------------+");
