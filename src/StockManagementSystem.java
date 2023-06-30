@@ -4,17 +4,21 @@ import java.util.Scanner;
 public class StockManagementSystem {
     static Scanner input = new Scanner(System.in);
     static String login[][] = new String[1][2];   //{{"Saminda", "1234"}};
-    static String supplies[][] = new String[0][2];  //{ {id,name} , {} }
-    static String item[][] = new String[0][5];
+    static String supplies[][] = new String[0][2];
+    static String item[][] = new String[0][6];
+
+    static String inputtedSupplierId="";
     public static void main(String[] args) {
         login[0][0] = "saminda";
         login[0][1] = "1234";
+
 
         login();
 
         clearConsole();
         HomePage();
     }
+
     private static void login() {
 
         System.out.println("+---------------------------------------------------------------------------------------+");
@@ -129,103 +133,232 @@ public class StockManagementSystem {
                 clearConsole();
                 addItem();
                 break;
+
+            case 3 :
+                clearConsole();
+                GetItemsSupplierWise();
+
+            case 4 :
+                clearConsole();
+                ViewItems();
+
+            case 5 :
+                clearConsole();
+                //rankedUnitPrice();
+
+            case 6 :
+                clearConsole();
+                HomePage();
         }
     }
 
-    private static void addItem() {
-            boolean hasCategories = false;
+    private static void ViewItems() {
+        System.out.println("+----------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\tVIEW ITEMS BY CATEGORY\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+----------------------------------------------------------------------------------------+");
+        System.out.println();
+        System.out.println("+-----------------------------------------------------------------------+");
+        System.out.println("|\tItem ID\t\t|\tDescription\t\t|\tUnit Price\t|\tQty on Hand\t\t|");
+        System.out.println("+-----------------------------------------------------------------------+");
 
-            for (int i = 0; i < item.length-1; i++) {
-                if (item[i][4] != null) {
-                    hasCategories = true;
-                    break;
-                }
+
+        for (int i = 0; i < item.length; i++) {
+            String categary = item[i][4];
+            System.out.println(categary+" : ");
+            System.out.printf("|\t%-10s\t|\t%-18s\b\b|\t%-10s\t|\t%-12s\t|\n",item[i][0],item[i][1],item[i][2],item[i][3]);
+            System.out.println("+-----------------------------------------------------------------------+");
+        }
+        System.out.println();
+        System.out.println("Do you want to go stock manage page?(Y/N) ");
+        String answer = input.next();
+        if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
+            clearConsole();
+            StockManage();
+        } else if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")) {
+            clearConsole();
+            ViewItems();
+        }
+    }
+    private static void GetItemsSupplierWise() {
+        System.out.println("+-----------------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\tSEARCH ITEM SUPPLIER WISE\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+-----------------------------------------------------------------------------------------------+");
+        System.out.println();
+        System.out.print("Enter the Supplier ID: ");
+        String id = input.next();
+        String name = "";
+
+        for (int i = 0; i < supplies.length; i++) {
+            if (supplies[i][0].equals(id)) {
+                name = supplies[i][1];
+                break;
             }
+        }
+        System.out.println("Supplier Name: " + name);
+        System.out.println();
+
+        System.out.println("+-------------------------------------------------------------------+");
+        System.out.println("|\tItem ID\t\t|\tDescription\t\t|\tUnit Price\t|\tQty on Hand\t|");
+        System.out.println("+-------------------------------------------------------------------+");
+
+        for (int i = 0; i < item.length; i++) {
+            if (item[i][5].equals(id)) {
+                System.out.printf("|\t%-10s\t|\t%-18s\b\b|\t%-10s\t|\t%-12s\b |\n", item[i][0], item[i][1], item[i][2], item[i][3]);
+            }
+        }
+
+        System.out.println("+-------------------------------------------------------------------+");
+        System.out.println();
+        System.out.print("Search successfully! ");
+        System.out.print("Do you want to search another item (Y/N)? ");
+        String answer = input.next();
+
+
+        if (answer.equalsIgnoreCase("Y")) {
+            clearConsole();
+            GetItemsSupplierWise();
+        } else if (answer.equalsIgnoreCase("N")) {
+            clearConsole();
+            StockManage();
+        } else {
+            System.out.println("Invalid choice. Please try again.");
+            GetItemsSupplierWise();
+        }
+    }
+    private static void addItem() {
+        boolean hasCategories = false;
+
+        for (int i = 0; i < item.length - 1; i++) {
+            if (item[i][4] != null) {
+                hasCategories = true;
+                break;
+            }
+        }
 
         boolean hasSuppliers = false;
 
-        for (int i = 0; i < supplies.length-1; i++) {
+        for (int i = 0; i < supplies.length - 1; i++) {
             if (supplies[i][0] != null) {
                 hasSuppliers = true;
                 break;
             }
         }
 
-            if (!hasCategories) {
-                System.out.println("+---------------------------------------------------------------------------------------+");
-                System.out.println("|\t\t\t\t\t\t\t\t\tADD ITEM\t\t\t\t\t\t\t\t\t\t\t|");
-                System.out.println("+---------------------------------------------------------------------------------------+");
-                System.out.println();
-                System.out.println("OOPS! It seems that you don't have any item categories in the system.");
-                System.out.print("Do you want to add a new item category? (Y/N) ");
-                String answer = input.next();
+        if (!hasCategories) {
+            System.out.println("+---------------------------------------------------------------------------------------+");
+            System.out.println("|\t\t\t\t\t\t\t\t\tADD ITEM\t\t\t\t\t\t\t\t\t\t\t|");
+            System.out.println("+---------------------------------------------------------------------------------------+");
+            System.out.println();
+            System.out.println("OOPS! It seems that you don't have any item categories in the system.");
+            System.out.print("Do you want to add a new item category? (Y/N) ");
+            String answer = input.next();
 
-                if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
-                    clearConsole();
-                    AddNewItemCategory();
+            if (answer.equalsIgnoreCase("Y")) {
+                clearConsole();
+                AddNewItemCategory();
+            } else if (answer.equalsIgnoreCase("N")) {
+                clearConsole();
+                StockManage();
+            }
+        } else if (!hasSuppliers) {
+            System.out.println("+---------------------------------------------------------------------------------------+");
+            System.out.println("|\t\t\t\t\t\t\t\t\tADD ITEM\t\t\t\t\t\t\t\t\t\t\t|");
+            System.out.println("+---------------------------------------------------------------------------------------+");
+            System.out.println();
+            System.out.println("OOPS! It seems that you don't have any item suppliers in the system.");
+            System.out.print("Do you want to add a new supplier category? (Y/N) ");
+            String answer = input.next();
 
+            if (answer.equalsIgnoreCase("Y")) {
+                clearConsole();
+                AddSupplier();
+            } else if (answer.equalsIgnoreCase("N")) {
+                clearConsole();
+                StockManage();
+            }
+        } else {
+            System.out.println("+---------------------------------------------------------------------------------------+");
+            System.out.println("|\t\t\t\t\t\t\t\t\tADD ITEM\t\t\t\t\t\t\t\t\t\t\t|");
+            System.out.println("+---------------------------------------------------------------------------------------+");
+            System.out.println();
+
+            System.out.print("Item id: ");
+            String id = input.next();
+            System.out.println();
+
+            System.out.println("+---------------------------------------------------------------+");
+            System.out.println("|\t #\t\t\t|\tSupplier ID\t\t\t|\tSupplier Name\t\t|");
+            System.out.println("+---------------------------------------------------------------+");
+
+            for (int i = 0; i < supplies.length; i++) {
+                System.out.printf("|\t %-10s |\t%-18s\t|\t%-18s\t|\n", (i + 1), supplies[i][0], supplies[i][1]);
+            }
+
+            System.out.println("+---------------------------------------------------------------+");
+            System.out.println();
+            System.out.print("Enter the Supplier number > ");
+            int supplierNumber = input.nextInt();
+
+            if (supplierNumber > 0 && supplierNumber <= supplies.length) {
+                String supplierId = supplies[supplierNumber - 1][0];
+
+                System.out.println("+-------------------------------------------+");
+                System.out.println("|\t #\t\t\t|\tCategory name\t\t\t|");
+                System.out.println("+-------------------------------------------+");
+
+                for (int k = 0; k < item.length; k++) {
+                    System.out.printf("|\t %-10s |\t%-18s\t\t|\n", (k + 1), item[k][4]);
                 }
-                if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")){
-                    clearConsole();
-                    StockManage();
-                }
 
-            }else if(!hasSuppliers){
-                System.out.println("+---------------------------------------------------------------------------------------+");
-                System.out.println("|\t\t\t\t\t\t\t\t\tADD ITEM\t\t\t\t\t\t\t\t\t\t\t|");
-                System.out.println("+---------------------------------------------------------------------------------------+");
+                System.out.println("+-------------------------------------------+");
                 System.out.println();
-                System.out.println("OOPS! It seems that you don't have any item suppliers in the system.");
-                System.out.print("Do you want to add a new supplier category? (Y/N) ");
-                String answer = input.next();
+                System.out.print("Enter the Category number > ");
+                int categoryNumber = input.nextInt();
 
-                if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
-                    clearConsole();
-                    AddSupplier();
-                }
-                if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")) {
-                    clearConsole();
-                    StockManage();
-                }
-            }else {
-                System.out.println("+---------------------------------------------------------------------------------------+");
-                System.out.println("|\t\t\t\t\t\t\t\t\tADD ITEM\t\t\t\t\t\t\t\t\t\t\t|");
-                System.out.println("+---------------------------------------------------------------------------------------+");
-                System.out.println();
+                if (categoryNumber > 0 && categoryNumber <= item.length) {
+                    String category = item[categoryNumber - 1][4];
 
+                    System.out.print("Description: ");
+                    String description = input.next();
+                    System.out.println();
+                    System.out.print("Unit Price: ");
+                    String unitPrice = input.next();
+                    System.out.println();
+                    System.out.print("Qty on hand: ");
+                    String qty = input.next();
+                    System.out.println();
 
-                System.out.print("Item id : ");
-                String id = input.next();
-                System.out.println();
+                    item[item.length - 1][0] = id;
+                    item[item.length - 1][1] = description;
+                    item[item.length - 1][2] = unitPrice;
+                    item[item.length - 1][3] = qty;
+                    item[item.length - 1][4] = category;
+                    item[item.length - 1][5] = supplierId;
 
-                System.out.println("+---------------------------------------------------------------+");
-                System.out.println("|\t #\t\t\t|\tSupplier ID\t\t\t|\tSupplier Name\t\t|");
-                System.out.println("+---------------------------------------------------------------+");
+                    System.out.print(item[item.length - 1][0] + ", ");
+                    System.out.print(item[item.length - 1][1] + ", ");
+                    System.out.print(item[item.length - 1][2] + ", ");
+                    System.out.print(item[item.length - 1][3] + ", ");
+                    System.out.print(item[item.length - 1][4] + ", ");
+                    System.out.print(item[item.length - 1][5]);
+                    System.out.println();
 
-                for (int i = 0; i < supplies.length; i++) {
-                    System.out.printf("|\t %-10s |\t%-18s\t|\t%-18s\t|\n", (i+1), supplies[i][0], supplies[i][1]);
-                }
+                    extendAddItems(id, description, unitPrice, qty, category);
 
-                System.out.println("+---------------------------------------------------------------+");
-                System.out.println();
-                System.out.print("Enter the Supplier number > ");
-                int supplierNumber = input.nextInt();
-                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    System.out.println("Added successfully!");
+                    System.out.print("Do you want to add another Item (Y/N)? ");
+                    String answer = input.next();
 
-                if (supplierNumber > 0 && supplierNumber <= supplies.length) {
-                    String supplierId = supplies[supplierNumber - 1][0];
-
-                    System.out.println("+-------------------------------------------+");
-                    System.out.println("|\t #\t\t\t|\tCategory name\t\t\t|");
-                    System.out.println("+-------------------------------------------+");
-
-                    for (int k = 0; k < item.length; k++) {
-                        System.out.printf("|\t %-10s |\t%-18s\t\t|\n", (k+1), item[k][4]);
+                    if (answer.equalsIgnoreCase("Y")) {
+                        clearConsole();
+                        addItem();
+                    } else if (answer.equalsIgnoreCase("N")) {
+                        clearConsole();
+                        StockManage();
                     }
-
-                    System.out.println("+-------------------------------------------+");
                 }
             }
+        }
     }
     private static void ManageItemCategories() {
         int option;
@@ -288,22 +421,22 @@ public class StockManagementSystem {
                     }
                 }
             }
-                System.out.println("updated successfully! ");
-                System.out.print("Do you want to delete another(Y/N) ? ");
-                String answer = input.next();
+            System.out.println("updated successfully! ");
+            System.out.print("Do you want to delete another(Y/N) ? ");
+            String answer = input.next();
 
-                if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
-                    clearConsole();
-                    UpdateItemCategory();
-                    break;
-                }
-                if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")) {
-                    clearConsole();
-                    ManageItemCategories();
-                    break;
-                }
+            if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
+                clearConsole();
+                UpdateItemCategory();
+                break;
+            }
+            if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")) {
+                clearConsole();
+                ManageItemCategories();
+                break;
             }
         }
+    }
 
     private static void DeleteItemCategory() {
         /////////////////////////////////////////////////////////////////////////////////////
@@ -346,7 +479,7 @@ public class StockManagementSystem {
                         }
                     }
                 }
-                }else{
+            }else{
                 System.out.println("can't find Item Category. try again!");
             }
         }
@@ -379,7 +512,7 @@ public class StockManagementSystem {
             System.out.print("Enter the new item category : ");
             String category = input.next();
 
-            extendAddItems("","",0.0,0,category);
+            extendAddItems("","","","",category);
             System.out.println();
             System.out.println("For test only !!! "+Arrays.toString(item));
 
@@ -400,22 +533,23 @@ public class StockManagementSystem {
             }
         }
     }
-    private static void extendAddItems(String id, String desc, double unitPrice, int Qty, String Category) {
-        String[][] temp = new String[item.length+1][5];
+    private static void extendAddItems(String id, String desc, String unitPrice, String Qty, String Category) {
+        String[][] temp = new String[item.length + 1][6];
 
         for (int i = 0; i < item.length; i++) {
             for (int j = 0; j < item[i].length; j++) {
-                temp[i][j]=item[i][j];
+                temp[i][j] = item[i][j];
             }
         }
 
-        temp[item.length][0]=id;
-        temp[item.length][1]=desc;
-        temp[item.length][2]=String.valueOf(unitPrice);
-        temp[item.length][3]=String.valueOf(Qty);
-        temp[item.length][4]=Category;
+        temp[item.length][0] = id;
+        temp[item.length][1] = desc;
+        temp[item.length][2] = unitPrice;
+        temp[item.length][3] = Qty;
+        temp[item.length][4] = Category;
+        temp[item.length][5] = "";
 
-        item=temp;
+        item = temp;
     }
 
     private static void SupplierManage() {
@@ -510,37 +644,37 @@ public class StockManagementSystem {
     }
     private static void ViewSupplier() {
         String answer;
-            System.out.println("+---------------------------------------------------------------------------------------+");
-            System.out.println("|\t\t\t\t\t\t\t\tVIEW SUPPLIER\t\t\t\t\t\t\t\t\t\t\t|");
-            System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\tVIEW SUPPLIER\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+---------------------------------------------------------------------------------------+");
 
-            while (true){
-                System.out.println();
-                System.out.println("+-----------------------------------------------+");
-                System.out.println("|\tSupplier ID\t\t|\t\tSupplier Name\t\t|");
-                System.out.println("+-----------------------------------------------+");
-                for (int i = 0; i < supplies.length; i++) {
-                    System.out.printf("|\t%-12s\t|\t\t%-14s\t\t|\n", supplies[i][0], supplies[i][1]);
-                }
-                System.out.println("+-----------------------------------------------+");
+        while (true){
+            System.out.println();
+            System.out.println("+-----------------------------------------------+");
+            System.out.println("|\tSupplier ID\t\t|\t\tSupplier Name\t\t|");
+            System.out.println("+-----------------------------------------------+");
+            for (int i = 0; i < supplies.length; i++) {
+                System.out.printf("|\t%-12s\t|\t\t%-14s\t\t|\n", supplies[i][0], supplies[i][1]);
+            }
+            System.out.println("+-----------------------------------------------+");
 
-                System.out.println();
-                System.out.print("Do you want to go supplier manage page(Y/N) ? ");
-                answer = input.next();
+            System.out.println();
+            System.out.print("Do you want to go supplier manage page(Y/N) ? ");
+            answer = input.next();
 
-                if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
+            if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("y")) {
+                clearConsole();
+                SupplierManage();
+                break;
+            }
+            if (answer == null) {
+                if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")) {
                     clearConsole();
-                    SupplierManage();
                     break;
-                }
-                if (answer == null) {
-                    if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("n")) {
-                        clearConsole();
-                        break;
-                    }
                 }
             }
         }
+    }
 
     private static void DeleteSupplier() {        ///explain
         System.out.println("+---------------------------------------------------------------------------------------+");
@@ -660,39 +794,37 @@ public class StockManagementSystem {
     private static void AddSupplier() {
         boolean duplicate;
 
-            System.out.println("+---------------------------------------------------------------------------------------+");
-            System.out.println("|\t\t\t\t\t\t\t\tADD SUPPLIER\t\t\t\t\t\t\t\t\t\t\t|");
-            System.out.println("+---------------------------------------------------------------------------------------+");
-            System.out.println();
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println("|\t\t\t\t\t\t\t\tADD SUPPLIER\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.println();
         while (true){
             System.out.print("Supplier id : ");
             String id = input.next();
+            inputtedSupplierId=id;
 
             duplicate = checkDuplicate(id);
 
-            if (duplicate==true) {
-                System.out.println("alrady exists. try another supplier id!");
+            if (duplicate) {
+                System.out.println("already exists. try another supplier id!");
                 //break;
-            } else if (duplicate==false) {
+            } else if (!duplicate) {
                 System.out.print("Supplier Name : ");
                 String name = input.next();
 
                 extendAddSupplier(id,name);
-               //extendMarksStudent();
+                //extendMarksStudent();
                 String answr ;
-
                 do{
                     System.out.println();
                     System.out.print("added successfully! ");
                     System.out.print("Do you want to add another supplier(Y/N) ?");    ///
                     answr=input.next();
-
                     if (answr.equalsIgnoreCase("Y") || answr.equalsIgnoreCase("y")){
                         clearConsole();
                         AddSupplier();
                         break;
                     }
-
                     if (answr.equalsIgnoreCase("N") || answr.equalsIgnoreCase("n")) {
                         System.out.println();
                         clearConsole();
@@ -701,24 +833,10 @@ public class StockManagementSystem {
                     }
                     //System.out.println("code wadii hu@#! ");
                     return;
-
-            }while (true);
+                }while (true);
             }
         }
     }
-
-//    private static int getUserAnswer() {
-//        char answr = input.next().charAt(0);
-//
-//        if (answr == 'Y' || answr == 'y') {
-//            return  1;
-//        } else if (answr=='N' || answr=='n') {
-//            return 2;
-//        }else {
-//            return 0;
-//        }
-//    }
-
     private static void extendAddSupplier(String id, String name) {              //Assign temp array values
         String[][] temp = new String[supplies.length+1][2];
 
