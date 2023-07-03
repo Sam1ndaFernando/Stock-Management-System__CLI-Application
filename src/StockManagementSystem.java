@@ -7,7 +7,6 @@ public class StockManagementSystem {
     static String supplies[][] = new String[0][2];
     static String item[][] = new String[0][6];
 
-   // static String inputtedSupplierId="";
     public static void main(String[] args) {
         login[0][0] = "saminda";
         login[0][1] = "1234";
